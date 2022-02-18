@@ -62,22 +62,22 @@ $("load").tameScanner();
 - If your plugin is being loaded inside the head of document, then you need to pass in the (element) property
 ```
     $("load").tameScanner({
-        element: '.your-class-name',
+        element: '.selector-name',
     });
 ```
 
-- If plugin is at the end of the document body, then you can pass the class/id name before you initialize plugin 
+- If plugin is at the bottom of document body, then you can pass the class/id name before you initialize plugin 
 ```
-    $(".element-selector").tameScanner({
+    $(".selector-name").tameScanner({
         
     });
 ```
 
-- Example 
+### Example 
 ```
     $("load").tameScanner({
         theme: '.sunny',
-        element: '.your-class-name',
+        element: '.selector-name',
         effectClass: '.tame-scanner-effect',
         allowDuplicate: false,
         key_track : function(data){
@@ -111,6 +111,100 @@ $("load").tameScanner();
     $(".element-selector").tameScanner({
         element: '.scanner'
     });
+```
+
+### After Effect
+```
+    When you hover on element, by default we added a classname that use suedo::after css
+    .tame-scanner-effect
+
+    - Please refer to the sample css stylesheet to see the design for .sample-effect
+
+    $(".element-selector").tameScanner({
+        effectClass: '.sample-effect'
+    });
+```
+
+### Allow duplicate
+```
+    By default; this is set to false
+    Allow duplicate entry of scanned data
+
+    boolean: false | true
+```
+
+### Key Track
+```
+    key_track: expect a function and returns all scanned data information
+
+    $(".element-selector").tameScanner({
+        key_track: function(data){
+            console.log(data);
+        }
+    });
+
+    - Example 2
+    $(".element-selector").tameScanner({
+        key_track: function(data){
+            if(data.response == 200){
+                //execute code to output scanned data to the browser
+                //check example/index.html file for live sample
+            }
+        }
+    });
+
+
+    
+    object{
+        count: 0, // integer
+        data: [], //arrays of all scanned data
+        message: 'message', //string
+        response: 200 //integer -- response code
+        
+    }
+```
+
+### Hover Track
+```
+    hover_track: expect a function and returns hover data information
+
+    $(".element-selector").tameScanner({
+        hover_track: function(data){
+            console.log(data);
+        }
+    });
+
+    - Example 2
+    $(".element-selector").tameScanner({
+        hover_track: function(data){
+
+            //if true
+            if(data.response){ 
+                //mouse is inside the element
+            }else{
+                //mouse is outside the element
+            }
+        }
+    });
+
+
+    
+    object{
+        message: 'message', //string
+        response: true //boolean -- true | false
+        
+    }
+```
+
+### Default Element Recreate
+```
+    By default we have recreate the element data and placed inside a div.container with classname of
+    .tame-scanner-parent
+
+    In other for us to keep track of mouse move within the entire page.
+    effectClass property is added to the parent element and not the main element.
+
+    Feel free to inspect the document to see how the behavior occur.
 ```
 
 

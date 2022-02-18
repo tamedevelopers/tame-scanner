@@ -15,7 +15,7 @@
             <h3>Tame Scanner - Barcode:</h3>
             
             <!--barcode element holder-->
-            <textarea rows="4" class="tame-scanner tame-scanner-f"></textarea>
+            <textarea rows="4" class="tame-scanner" id="tame-scanner"></textarea>
             <!--//End barcode element holder-->
             
             
@@ -39,12 +39,11 @@
         
         //begin scanner
         $("load").tameScanner({
-            'theme' : 'summer',
-            'element' : 'tame-scanner',
-            'effectClass' : 'tame-scanner-effect',
-            'allowDuplicate' : true,
+            theme : '.sunny',
+            element : '#tame-scanner',
+            allowDuplicate : false,
             key_track : function(data){
-                if(data.error == 200){
+                if(data.response == 200){
                     var str = ""; $(".input_elem").html('');
                     $.each(data.data, function(index, value){
                         str += "<input type='text' name='scadata[]' class='input_class' value='";
@@ -52,11 +51,11 @@
                     });
                     $(".input_elem").append(str);
                 }else{
-                    console.log(data.error);
+                    console.log(data);
                 }
             },
             hover_track : function(data){
-                if(data.error){
+                if(data.response){
                     //when mouse is inside the div container
                     $(".scanner_warning").slideUp(100);
                 }else{

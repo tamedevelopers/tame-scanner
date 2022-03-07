@@ -103,7 +103,7 @@ $("load").tameScanner();
     - Please refer to the sample css stylesheet to see the design for .tame-scanner-effect
 
     $(".element-selector").tameScanner({
-        effectClass: '.sample-effect'
+        effectClass: '.tame-scanner-effect'
     });
 ```
 

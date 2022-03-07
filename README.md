@@ -38,12 +38,11 @@ tame-scanner.min.js (minified -v)
 $("load").tameScanner();
 ```
 
-**We have six (6) properties to pass to the plugin object**
+**We have five (5) properties to pass to the plugin object**
 
 ```
 : theme -- custom class name
-: element -- textarea element id or classname
-: effectClass -- suedo css after effect on mouse hover
+: effectClass -- css for element on mouse hover
 : allowDuplicate -- allow duplicated barcode data
 : key_track -- function (on each barcode scanner response)
 : hover_track -- function (On element hover 'in' and 'out')
@@ -52,21 +51,14 @@ $("load").tameScanner();
 
 ## INPUT HTML STRUCTURE
 
-- You can use (.) class or (#) id selector
+- You can use (.) class, (#) id selector or any other selector
 ```
 <textarea rows="4" class="your-class-name" id="your-id"></textarea>
 ```
 
 
 ## Customize plugin object
-- If your plugin is being loaded inside the head of document, then you need to pass in the (element) property
-```
-    $("load").tameScanner({
-        element: '.selector-name',
-    });
-```
-
-- If plugin is at the bottom of document body, then you can pass the class/id name before you initialize plugin 
+- Pass the class/id or any other selector name as you initialize plugin 
 ```
     $(".selector-name").tameScanner({
         
@@ -75,9 +67,8 @@ $("load").tameScanner();
 
 ### Example 
 ```
-    $("load").tameScanner({
+    $(".selector-name").tameScanner({
         theme: '.sunny',
-        element: '.selector-name',
         effectClass: '.tame-scanner-effect',
         allowDuplicate: false,
         key_track : function(data){
@@ -115,10 +106,12 @@ $("load").tameScanner();
 
 ### After Effect
 ```
-    When you hover on element, by default we added a classname that use suedo::after css
-    .tame-scanner-effect
+    When you hover on element, by default we created two elements of (<small> tags)
+    <small class='tame-scanner-effect'>
+        <small></small>
+    </small>
 
-    - Please refer to the sample css stylesheet to see the design for .sample-effect
+    - Please refer to the sample css stylesheet to see the design for .tame-scanner-effect
 
     $(".element-selector").tameScanner({
         effectClass: '.sample-effect'

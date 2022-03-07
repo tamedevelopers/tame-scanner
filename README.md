@@ -93,17 +93,6 @@ $("load").tameScanner();
     });
 ```
 
-### Element property
-```
-    textarea selector name
-    i.e 
-    <textarea rows="4" class="scanner"></textarea>
-
-    $(".element-selector").tameScanner({
-        element: '.scanner'
-    });
-```
-
 ### After Effect
 ```
     When you hover on element, by default we created two elements of (<small> tags)

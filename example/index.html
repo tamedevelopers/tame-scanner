@@ -7,6 +7,9 @@
     <title>Tame Barcode Scanner</title>
     
     <link href="../src/style.css" rel="stylesheet">
+    
+    <script src="../src/jquery.min.js"></script>
+    <script src="../src/tame-scanner.js"></script>
 </head>
 <body>
     <center>
@@ -15,7 +18,7 @@
             <h3>Tame Scanner - Barcode:</h3>
             
             <!--barcode element holder-->
-            <textarea rows="4" class="tame-scanner" id="tame-scanner"></textarea>
+            <textarea rows="4" class="tame-scanner coming" id="tame-scanner"></textarea>
             <!--//End barcode element holder-->
             
             
@@ -33,15 +36,12 @@
          </form>
     </center>
 
-    <script src="../src/jquery.min.js"></script>
-    <script src="../src/tame-scanner.js"></script>
     <script>
         
         //begin scanner
-        $("load").tameScanner({
+        $("#tame-scanner").tameScanner({
             theme : '.sunny',
-            element : '#tame-scanner',
-            allowDuplicate : false,
+            allowDuplicate : true,
             key_track : function(data){
                 if(data.response == 200){
                     var str = ""; $(".input_elem").html('');

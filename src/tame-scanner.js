@@ -1,6 +1,6 @@
 /*!
- * Tame Components v1.0.0
- * https://tamedev.com
+ * Tame Scanner v1.0.0
+ * https://tamedevelopers.com
  * https://tamedev.xyz
  * Copyright 2021-present Fredrick Peterson
  * Released under the MIT license
@@ -31,7 +31,6 @@
     */
     var defaultOptions = {
         theme : '.summer',
-        element : '.tame-scanner',
         effectClass : '.tame-scanner-effect',
         allowDuplicate : false,
         key_track : function(data){
@@ -51,7 +50,7 @@
         'height': '100px',
         'display': 'inline-block',
         'padding': '10px 20px',
-        'margin': '0 0 20px',
+        'margin': '0px',
         'border': '2px solid grey',
         'border-radius': '10px',
         'background': 'rgba(207, 204, 204, 0.50)',
@@ -102,39 +101,8 @@
         */
         self.options.theme = self.options.theme.replace('.', '');
         
-        /**
-        * Remove any leading dot (.) from effectClass
-        */
-        self.options.effectClass = self.options.effectClass.replace('.', '');
-        
-        
-        /**
-         * Check if an ID element or not
-        * Remove any leading dot (.) from class and personally re-add the dot here
-        */
-        if(self.options.element.match("^#") == null){
-            self.options.element = self.options.element.replace('.', '');
-            self.options.element = '.' + self.options.element;
-        }
-        
-        
-        /**
-        * By default if plugin is placed in head section; lets get all element class name
-        * Else get the loader class name
-        */
-       
-        if(typeof($(external_loader)[0]) != 'undefined'){
-            
-            
-            
-            var splitClass = $(external_loader)[0].className.split(' ');
-            var joinClass = "";
-            $.each(splitClass, function(index, value){
-                joinClass += "." + value + ", ";
-            });
-            
-            self.options.element = $.trim(joinClass).slice(0, -1);
-        }
+        //get loader selector and add to extended properties 
+        self.options.element = $(external_loader)[0];
         
         /**
         * find selector in entire document
@@ -142,7 +110,7 @@
         var selector = check($(self.options.element));
         
         /**
-        * get selector element
+        * get selector element and add to element variable
         */
         var element = $(self.options.element);
                 
@@ -162,7 +130,7 @@
         /**
         * check for allowed tag type -- (teaxarea)
         */
-        if($(element)[0].localName != 'textarea'){
+        if($(element)[0].localName !== 'textarea'){
             self.options.key_track({
                 'data' : [],
                 'count' : 0,
@@ -188,17 +156,6 @@
         $(element).after(str);
         $(".tame-scanner-parent").html($(element));
         
-        
-        //create ::after suedo effect
-        var effect = "";
-        effect += "<style>.tame-scanner-effect:after {";
-        effect += " content: ''; left: calc(100% - 55%); top: calc(100% - 84%); width: 60px; height: 60px;";
-        effect += " background: #fbfffb; background-size: 100%; position: absolute;";
-        effect += " background-image: url(" + svg + ");";
-        effect += "}.summer:focus{outline: transparent;}</style>";
-        
-        $(element).append($(effect));
-        
         /**
         * create or add class 
         */
@@ -207,6 +164,13 @@
         }else{
             $(self.options.element).addClass(self.options.theme);
         }
+        
+        //create after effect element
+        var effectElem = "";
+        var effect = self.options.effectClass.replace('.', ''); 
+        effectElem += "<small class='" + effect + "' style='position: aboslute;'>";
+        effectElem +=   "<small></small>";
+        effectElem += "</small>";
         
         //on key up
         /**
@@ -256,9 +220,11 @@
         * Keep track of document mouse move -- in other for us to know if element is on focus or not
         */
         $(document).mousemove(function(){
-            if($(".tame-scanner-parent:hover").length != 0){
+            if($(".tame-scanner-parent:hover").length !== 0){
                 $(element).focus(); //autofucs on element
-                $(element).parent().addClass(self.options.effectClass);
+                if(check($(self.options.effectClass)) === 0){
+                    $(element).parent().append(effectElem);
+                }
                 self.options.hover_track({
                     'message' : "Mouse over the element",
                     'response' : true
@@ -271,14 +237,13 @@
                 
                 if(movetrack){
                     $(element).focus(); //autofucs on element
-                    $(element).parent().addClass(self.options.effectClass);
                     self.options.hover_track({
                         'message' : "Mouse over the element",
                         'response' : movetrack
                     });
                 }else{
                     $(element).blur();
-                    $(element).parent().removeClass(self.options.effectClass);
+                    $(element).parent().find(self.options.effectClass).remove(); //remove effect element
                     self.options.hover_track({
                         'message' : "Mouse outside of the element",
                         'response' : movetrack
